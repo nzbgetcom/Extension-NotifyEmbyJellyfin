@@ -1,0 +1,70 @@
+{
+    "main": "main.py",
+    "name": "NotifyEmbyJellyfin",
+    "homepage": "https://github.com/nzbgetcom/Extension-NotifyEmbyJellyfin/",
+    "kind": "POST-PROCESSING",
+    "displayName": "Notify Emby/Jellyfin",
+    "version": "1.0",
+    "nzbgetMinVersion": "23.0",
+    "author": "Denis",
+    "license": "GNU",
+    "about": "Post-Processing extension to trigger Emby/Jellyfin after downloads.",
+    "queueEvents": "",
+    "description": [],
+    "requirements": [
+        "This extension is compatible to Python 3.8 and above."
+    ],
+    "options": [
+        {
+            "name": "host",
+            "displayName": "Host",
+            "value": "127.0.0.1",
+            "description": [
+                "Emby/Jellyfin server host."
+            ],
+            "select": []
+        },
+        {
+            "name": "port",
+            "displayName": "Port",
+            "value": 8096,
+            "description": [
+                "Default port is: 8096"
+            ],
+            "select": [1, 65535]
+        },
+        {
+            "name": "apiKey",
+            "displayName": "API Key",
+            "value": "<API KEY>",
+            "description": [
+                "Used to authenticate and authorize access to an Emby/Jellyfin API.",
+                "",
+                "Can be created in the settings of the web interface of Emby/Jellyfin."
+            ],
+            "select": []
+        },
+        {
+            "name": "Verbose",
+            "displayName": "Verbose",
+            "value": "no",
+            "description": [
+                "Print more logging messages.",
+                "",
+                "For debugging."
+            ],
+            "select": ["no", "yes"]
+        }
+    ],
+    "commands": [
+        {
+            "name": "ping",
+            "displayName": "Ping",
+            "action": "Ping Emby/Jellyfin",
+            "description": [
+                "Ping Emby/Jellyfin to check if it is running."
+            ]
+        }
+    ],
+    "taskTime": ""
+}
