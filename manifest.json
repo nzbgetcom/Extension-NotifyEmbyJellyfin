@@ -12,7 +12,7 @@
     "queueEvents": "",
     "description": [],
     "requirements": [
-        "This extension is compatible to Python 3.8 and above."
+        "This extension supports Python 3.8 and above."
     ],
     "options": [
         {
