@@ -26,7 +26,7 @@ import http.server
 import threading
 import unittest
 import json
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse
 
 SUCCESS = 93
 NONE = 95
@@ -37,15 +37,41 @@ HOST = "127.0.0.1"
 PORT = "8096"
 
 
-class HttpServerPingMock(http.server.BaseHTTPRequestHandler):
+class HttpServerGetMock(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
+        parsed_url = urlparse(self.path)
+
+        data = ""
+        if parsed_url.path == "/System/Ping":
+            data = "success"
+            self.send_response(200)
+        else:
+            data = "failure"
+            self.send_response(400)
+
         self.send_response(200)
-        self.send_header("Content-type", "application/json")
+        self.send_header("Content-type", "text/plain")
         self.end_headers()
 
-        data = {"data": {"pid": 5124}, "message": "Pong", "result": "success"}
-        response = json.dumps(data)
-        self.wfile.write(response.encode("utf-8"))
+        data = "success"
+        self.wfile.write(data.encode("utf-8"))
+
+
+class HttpPostMock(http.server.BaseHTTPRequestHandler):
+    def do_POST(self):
+        parsed_url = urlparse(self.path)
+
+        data = ""
+        if parsed_url.path == "/Library/Refresh":
+            data = "success"
+            self.send_response(200)
+        else:
+            data = "failure"
+            self.send_response(400)
+
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(data.encode("utf-8"))
 
 
 def get_python():
@@ -79,7 +105,7 @@ class Tests(unittest.TestCase):
     def test_command(self):
         set_default_env()
         os.environ["NZBCP_COMMAND"] = "ping"
-        server = http.server.HTTPServer((HOST, int(PORT)), HttpServerPingMock)
+        server = http.server.HTTPServer((HOST, int(PORT)), HttpServerGetMock)
         thread = threading.Thread(target=server.serve_forever)
         thread.start()
         [_, code, _] = run_script()
@@ -88,13 +114,24 @@ class Tests(unittest.TestCase):
         thread.join()
         self.assertEqual(code, SUCCESS)
 
+    def test_refresh_lib(self):
+        set_default_env()
+        os.environ.pop("NZBCP_COMMAND", None)
+        server = http.server.HTTPServer((HOST, int(PORT)), HttpPostMock)
+        thread = threading.Thread(target=server.serve_forever)
+        thread.start()
+        [_, code, _] = run_script()
+        server.shutdown()
+        server.server_close()
+        thread.join()
+        self.assertEqual(code, SUCCESS)
 
     def test_manifest(self):
         with open(ROOT_DIR + "/manifest.json", encoding="utf-8") as file:
             try:
                 json.loads(file.read())
             except ValueError as e:
-                self.fail("manifest.json is not valid.")
+                self.fail(f"manifest.json is not valid: {e}")
 
 
 if __name__ == "__main__":
