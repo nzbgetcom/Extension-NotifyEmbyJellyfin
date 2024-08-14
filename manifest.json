@@ -4,7 +4,7 @@
     "homepage": "https://github.com/nzbgetcom/Extension-NotifyEmbyJellyfin/",
     "kind": "POST-PROCESSING",
     "displayName": "Notify Emby/Jellyfin",
-    "version": "1.0",
+    "version": "1.1",
     "nzbgetMinVersion": "23.0",
     "author": "Denis",
     "license": "GNU",

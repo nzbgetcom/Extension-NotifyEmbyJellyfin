@@ -2,7 +2,7 @@
 
 ## NZBGet Versions
 
-- stable v23 [v1.0](https://github.com/nzbgetcom/Extension-NotifyEmbyJellyfin/releases/tag/v1.0)
+- stable v23 [v1.1](https://github.com/nzbgetcom/Extension-NotifyEmbyJellyfin/releases/tag/v1.1)
 
 # Notify Emby or Jellyfin
 
