@@ -55,8 +55,10 @@ PORT = os.environ["NZBPO_PORT"]
 VERBOSE = os.environ["NZBPO_VERBOSE"] == "yes"
 COMMAND = os.environ.get("NZBCP_COMMAND") == "ping"
 
-URL = f"http://{HOST}:{PORT}"
-
+if PORT != "":
+    URL = f"http://{HOST}:{PORT}"
+else:
+    URL = f"http://{HOST}"
 
 if VERBOSE:
     print("[INFO] URL:", URL)
